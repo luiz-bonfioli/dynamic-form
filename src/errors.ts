@@ -21,6 +21,15 @@ export class ApiError extends Error {
   }
 }
 
+export class ServiceError extends Error {
+  constructor(message: string, error?: any) {
+    const fullMessage = `${message}${
+      error?.message ? `: ${error.message}` : ''
+    }`
+    super(fullMessage)
+  }
+}
+
 export const StatusCodes = {
   badRequest: 400,
   unauthorized: 401,

@@ -1,13 +1,11 @@
 import { FastifyInstance } from 'fastify'
 
-import { Form, Prisma } from '@prisma/client'
-
-import prisma from '../db/db_client'
+import { Form } from '@prisma/client'
 import { serializer } from './middleware/pre_serializer'
 import { IEntityId } from './schemas/common'
 import { ApiError } from '../errors'
-import { randomUUID } from 'crypto'
 import { StatusCodes } from '../status'
+import { createForm, getAllForms, getFormById } from '../services/formService'
 
 async function formRoutes(app: FastifyInstance) {
   app.setReplySerializer(serializer)
@@ -23,7 +21,7 @@ async function formRoutes(app: FastifyInstance) {
       const { id } = params
       log.debug('get form by id')
       try {
-        const form = await prisma.form.findUniqueOrThrow({ where: { id } })
+        const form = await getFormById(id)
         reply.send(form)
       } catch (err: any) {
         log.error({ err }, err.message)
@@ -38,7 +36,7 @@ async function formRoutes(app: FastifyInstance) {
     async handler(_req, reply) {
       log.debug('get all forms')
       try {
-        const forms = await prisma.form.findMany()
+        const forms = await getAllForms()
         reply.send(forms)
       } catch (err: any) {
         log.error({ err }, err.message)
@@ -55,14 +53,7 @@ async function formRoutes(app: FastifyInstance) {
       log.debug('creating new form')
       try {
         const { name, fields } = req.body
-        const createdForm = (await prisma.form.create({
-          data: {
-            id: randomUUID(),
-            name,
-            fields: fields as Prisma.InputJsonValue,
-          },
-        })) as Form
-        reply.status(StatusCodes.created).send(createdForm)
+        reply.status(StatusCodes.created).send(await createForm(name, fields))
       } catch (err: any) {
         log.error({ err }, err.message)
         throw new ApiError('failed to create form')

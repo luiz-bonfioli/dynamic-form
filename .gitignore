@@ -1,0 +1,8 @@
+.env
+.sql
+.DS_Store
+.vscode
+node_modules/
+prisma/dbml
+dist/
+.idea/

@@ -6,7 +6,7 @@ import prisma from '../db/db_client'
 import { serializer } from './middleware/pre_serializer'
 import { IEntityId } from './schemas/common'
 import { ApiError } from '../errors'
-import { v4 as uuidv4 } from 'uuid'
+import { randomUUID } from 'crypto'
 import { StatusCodes } from '../status'
 
 async function formRoutes(app: FastifyInstance) {
@@ -57,7 +57,7 @@ async function formRoutes(app: FastifyInstance) {
         const { name, fields } = req.body
         const createdForm = (await prisma.form.create({
           data: {
-            id: uuidv4(),
+            id: randomUUID(),
             name,
             fields: fields as Prisma.InputJsonValue,
           },

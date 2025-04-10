@@ -3,10 +3,10 @@ import { FastifyInstance } from 'fastify'
 import prisma from '../db/db_client'
 import { serializer } from './middleware/pre_serializer'
 import { ApiError } from '../errors'
-import { v4 as uuidv4 } from 'uuid'
 import { StatusCodes } from '../status'
 import { SourceRecord } from '@prisma/client'
 import { IEntityId } from './schemas/common'
+import { randomUUID } from 'crypto'
 
 async function sourceRoutes(app: FastifyInstance) {
   app.setReplySerializer(serializer)
@@ -21,7 +21,7 @@ async function sourceRoutes(app: FastifyInstance) {
       log.debug('creating new source record')
       try {
         const sourceRecord = req.body
-        const newUUID = uuidv4()
+        const newUUID = randomUUID()
 
         const sourceRecordCreated = await prisma.sourceRecord.create({
           data: {

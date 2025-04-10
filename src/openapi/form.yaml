@@ -1,0 +1,98 @@
+openapi: 3.0.3
+info:
+  title: Form API
+  version: 1.0.0
+  description: API for managing form entities.
+
+paths:
+  /forms:
+    get:
+      summary: Get all forms
+      operationId: getAllForms
+      responses:
+        '200':
+          description: A list of forms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Form'
+        '500':
+          description: Failed to fetch forms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      summary: Create a new form
+      operationId: createForm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Form'
+      responses:
+        '201':
+          description: Form created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Form'
+        '500':
+          description: Failed to create form
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /forms/{id}:
+    get:
+      summary: Get form by ID
+      operationId: getFormById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single form
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Form'
+        '500':
+          description: Failed to fetch form
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Form:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        fields:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+      required:
+        - name
+        - fields
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string

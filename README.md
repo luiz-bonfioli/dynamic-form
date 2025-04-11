@@ -2,6 +2,7 @@
 
 ## Getting Started
 - copy the .env.example file into a .env file
+- `cp .env.example .env`
 - `docker compose build`
 - `docker compose up`
 - `npm run migrate`

@@ -12,6 +12,20 @@
 curl --location 'http://127.0.0.1:8080/form/{insert your generated form id here}' --header 'Content-Type: application/json'
 ```
 
+## Execute Unit Tests
+Execute the unit tests running the command below:
+```shell
+npx jest
+```
+Expected result:
+```
+PASS  tests/form.service.test.ts
+PASS  tests/source.service.test.ts
+
+Test Suites: 2 passed, 2 total
+Tests:       10 passed, 10 total
+```
+
 ## Introduction
 The purpose of this project is to evaluate your full stack web development skills with an example project that closely resembles your day to day tasks at Vial. 
 

@@ -12,6 +12,12 @@
 curl --location 'http://127.0.0.1:8080/form/{insert your generated form id here}' --header 'Content-Type: application/json'
 ```
 
+## Install dependencies
+Execute the command below to install dependencies:
+```shell
+npm install
+```
+
 ## Execute Unit Tests
 Execute the unit tests running the command below:
 ```shell
